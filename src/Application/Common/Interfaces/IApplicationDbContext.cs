@@ -1,10 +1,11 @@
 ﻿using GolfCaddie.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace GolfCaddie.Application.Common.Interfaces;
 
 public interface IApplicationDbContext
 {
-    DbSet<TodoList> TodoLists { get; }
+    DbSet<ScoreCard> TodoLists { get; }
 
     DbSet<Hole> TodoItems { get; }
 

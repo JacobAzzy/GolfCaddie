@@ -1,6 +1,9 @@
-﻿namespace GolfCaddie.Application.Common.Models;
+﻿using GolfCaddie.Application.Common.Models;
+using GolfCaddie.Domain.Entities;
 
-public class HoleDto
+namespace GolfCaddie.Application.HoleCQRS.Commands.CreateHole;
+
+public class SaveHoleVM
 {
     public int id { get; set; }
     public required int HoleNumber { get; set; }

@@ -1,13 +1,14 @@
-﻿using GolfCaddie.Domain.Entities;
+﻿using GolfCaddie.Application.Common.Models;
+using GolfCaddie.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace GolfCaddie.Application.Common.Interfaces;
 
 public interface IApplicationDbContext
 {
-    DbSet<ScoreCard> TodoLists { get; }
+    DbSet<ScoreCardDto> ScoreCards { get; }
 
-    DbSet<Hole> TodoItems { get; }
+    DbSet<HoleDto> Holes { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

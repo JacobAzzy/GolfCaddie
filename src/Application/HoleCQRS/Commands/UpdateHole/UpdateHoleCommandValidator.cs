@@ -23,10 +23,10 @@ public class UpdateHoleCommandValidator : AbstractValidator<UpdateHoleCommand>
             .NotEmpty();
     }
 
-    public async Task<bool> BeUniqueTitle(UpdateHoleCommand model, string title, CancellationToken cancellationToken)
+    public async Task<bool> BeUniqueTitle(UpdateHoleCommand model, int Id, CancellationToken cancellationToken)
     {
         return await _context.Holes
             .Where(l => l.id != model.hole.id)
-            .AllAsync(l => l.Title != title, cancellationToken);
+            .AllAsync(l => l.id != Id, cancellationToken);
     }
 }

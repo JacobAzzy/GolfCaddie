@@ -2,7 +2,6 @@
 using GolfCaddie.Domain.Constants;
 using GolfCaddie.Domain.Entities;
 using GolfCaddie.Infrastructure.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -69,42 +68,23 @@ public class ApplicationDbContextInitialiser
     public async Task TrySeedAsync()
     {
         // Default roles
-        var administratorRole = new IdentityRole(Roles.Administrator);
+        var userRole = new IdentityRole(Roles.User);
 
-        if (_roleManager.Roles.All(r => r.Name != administratorRole.Name))
+        if (_roleManager.Roles.All(r => r.Name != userRole.Name))
         {
-            await _roleManager.CreateAsync(administratorRole);
+            await _roleManager.CreateAsync(userRole);
         }
 
-        // Default users
-        var administrator = new ApplicationUser { UserName = "administrator@localhost", Email = "administrator@localhost" };
+        // Default user
+        var user = new ApplicationUser { UserName = "jacob.asmundson", Email = "jacob.asmundson@localhost.ca" };
 
-        if (_userManager.Users.All(u => u.UserName != administrator.UserName))
+        if (_userManager.Users.All(u => u.UserName != user.UserName))
         {
-            await _userManager.CreateAsync(administrator, "Administrator1!");
-            if (!string.IsNullOrWhiteSpace(administratorRole.Name))
+            await _userManager.CreateAsync(user, "123465789");
+            if (!string.IsNullOrWhiteSpace(userRole.Name))
             {
-                await _userManager.AddToRolesAsync(administrator, new [] { administratorRole.Name });
+                await _userManager.AddToRolesAsync(user, new [] { userRole.Name });
             }
-        }
-
-        // Default data
-        // Seed, if necessary
-        if (!_context.TodoLists.Any())
-        {
-            _context.TodoLists.Add(new TodoList
-            {
-                Title = "Todo List",
-                Items =
-                {
-                    new TodoItem { Title = "Make a todo list 📃" },
-                    new TodoItem { Title = "Check off the first item ✅" },
-                    new TodoItem { Title = "Realise you've already done two things on the list! 🤯"},
-                    new TodoItem { Title = "Reward yourself with a nice, long nap 🏆" },
-                }
-            });
-
-            await _context.SaveChangesAsync();
         }
     }
 }

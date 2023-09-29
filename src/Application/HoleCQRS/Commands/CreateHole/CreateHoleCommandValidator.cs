@@ -10,9 +10,6 @@ public class CreateHoleCommandValidator : AbstractValidator<CreateHoleCommand>
     {
         _context = context;
 
-        RuleFor(v => v.hole.id)
-            .NotEmpty();
-
         RuleFor(v => v.hole.Par)
             .NotEmpty();
 

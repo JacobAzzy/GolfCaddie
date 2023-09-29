@@ -19,12 +19,12 @@ public class GetHoleQueryHandler : IRequestHandler<GetHoleQuery, HoleHistoryVM>
         _mapper = mapper;
     }
 
-    public async Task<HoleHistoryVM> Handle(GetHoleQuery request, CancellationToken cancellationToken)
+    public Task<HoleHistoryVM> Handle(GetHoleQuery request, CancellationToken cancellationToken)
     {
-        return new HoleHistoryVM
+        return Task.FromResult(new HoleHistoryVM
         {
             // implement
             Holes = new List<HoleDto>()
-        };
+        });
     }
 }

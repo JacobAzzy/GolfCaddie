@@ -1,5 +1,4 @@
-﻿using DotNetCore.Results;
-using GolfCaddie.Application.Common.Interfaces;
+﻿using GolfCaddie.Application.Common.Interfaces;
 using GolfCaddie.Application.Common.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

@@ -4,12 +4,12 @@ using GolfCaddie.Domain.Entities;
 
 namespace GolfCaddie.Application.ScoreCardCQRS.Commands.CreateScoreCard;
 
-public record CreateScoreCardCommand : IRequest<ScoreCardDto>
+public record CreateScoreCardCommand : IRequest<int>
 {
-    public SaveScoreCardVM scoreCard { get; init; }
+    public SaveScoreCardVM? scoreCard { get; init; }
 }
 
-public class CreateScoreCardCommandHandler : IRequestHandler<CreateScoreCardCommand, ScoreCardDto>
+public class CreateScoreCardCommandHandler : IRequestHandler<CreateScoreCardCommand, int>
 {
     private readonly IApplicationDbContext _context;
 
@@ -18,20 +18,19 @@ public class CreateScoreCardCommandHandler : IRequestHandler<CreateScoreCardComm
         _context = context;
     }
 
-    public async Task<ScoreCardDto> Handle(CreateScoreCardCommand request, CancellationToken cancellationToken)
+    public async Task<int> Handle(CreateScoreCardCommand request, CancellationToken cancellationToken)
     {
-        var entity = new ScoreCardDto
+        var entity = new ScoreCard
         { 
-            id = request.scoreCard.id,
             CourseName = request.scoreCard.CourseName,
             Date = request.scoreCard.Date,
-            Holes = request.scoreCard.Holes
+            Holes = request.scoreCard.Holes,
         };
 
         _context.ScoreCards.Add(entity);
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        return entity;
+        return entity.Id;
     }
 }

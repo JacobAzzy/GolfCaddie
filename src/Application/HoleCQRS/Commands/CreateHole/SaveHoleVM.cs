@@ -5,7 +5,6 @@ namespace GolfCaddie.Application.HoleCQRS.Commands.CreateHole;
 
 public class SaveHoleVM
 {
-    public int id { get; set; }
     public required int HoleNumber { get; set; }
     public required int Par { get; set; }
     public required int Score { get; set; }

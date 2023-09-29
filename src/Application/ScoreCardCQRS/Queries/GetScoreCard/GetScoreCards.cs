@@ -18,12 +18,12 @@ public class GetScoreCardsQueryHandler : IRequestHandler<GetScoreCardsQuery, Sco
         _mapper = mapper;
     }
 
-    public async Task<ScoreCardHistoryVM> Handle(GetScoreCardsQuery request, CancellationToken cancellationToken)
+    public Task<ScoreCardHistoryVM> Handle(GetScoreCardsQuery request, CancellationToken cancellationToken)
     {
-        return new ScoreCardHistoryVM
+        return Task.FromResult(new ScoreCardHistoryVM
         {
             // implement
             ScoreCards = new List<ScoreCardDto> { }
-        };
+        });
     }
 }

@@ -9,24 +9,24 @@ public class UpdateHoleCommandValidator : AbstractValidator<UpdateHoleCommand>
     public UpdateHoleCommandValidator(IApplicationDbContext context)
     {
         _context = context;
+         if (context != null) 
+        {
+            RuleFor(v => v.hole.Par)
+                .NotEmpty();
 
-        RuleFor(v => v.hole.id)
-            .NotEmpty();
+            RuleFor(v => v.hole.HoleNumber)
+                .NotEmpty();
 
-        RuleFor(v => v.hole.Par)
-            .NotEmpty();
+            RuleFor(v => v.hole.Score)
+                .NotEmpty();
+        }
 
-        RuleFor(v => v.hole.HoleNumber)
-            .NotEmpty();
-
-        RuleFor(v => v.hole.Score)
-            .NotEmpty();
     }
 
     public async Task<bool> BeUniqueTitle(UpdateHoleCommand model, int Id, CancellationToken cancellationToken)
     {
         return await _context.Holes
-            .Where(l => l.id != model.hole.id)
-            .AllAsync(l => l.id != Id, cancellationToken);
+            .Where(l => l.Id != model.Id)
+            .AllAsync(l => l.Id != Id, cancellationToken);
     }
 }

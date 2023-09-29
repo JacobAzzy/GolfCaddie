@@ -5,7 +5,8 @@ namespace GolfCaddie.Application.ScoreCardCQRS.Commands.UpdateScoreCard;
 
 public record UpdateScoreCardListCommand : IRequest
 {
-    public SaveScoreCardVM scoreCard { get; init; }
+    public int Id { get; init; }
+    public SaveScoreCardVM? scoreCard { get; init; }
 }
 
 public class UpdateScoreCardListCommandHandler : IRequestHandler<UpdateScoreCardListCommand>
@@ -20,11 +21,11 @@ public class UpdateScoreCardListCommandHandler : IRequestHandler<UpdateScoreCard
     public async Task Handle(UpdateScoreCardListCommand request, CancellationToken cancellationToken)
     {
         var entity = await _context.ScoreCards
-            .FindAsync(new object[] { request.scoreCard.id }, cancellationToken);
+            .FindAsync(new object[] { request.Id }, cancellationToken);
 
-        Guard.Against.NotFound(request.scoreCard.id, entity);
+        Guard.Against.NotFound(request.Id, entity);
 
-        entity.id = request.scoreCard.id;
+        entity.Id = request.Id;
         entity.CourseName = request.scoreCard.CourseName;
         entity.Holes = request.scoreCard.Holes;
         entity.Date = request.scoreCard.Date;

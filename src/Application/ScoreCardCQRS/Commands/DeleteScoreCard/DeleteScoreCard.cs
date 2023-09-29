@@ -3,7 +3,7 @@
 namespace GolfCaddie.Application.ScoreCardCQRS.Commands.DeleteScoreCard;
 
 
-public record DeleteScoreCardCommand(int id) : IRequest;
+public record DeleteScoreCardCommand(int Id) : IRequest;
 
 public class DeleteScoreCardCommandHandler : IRequestHandler<DeleteScoreCardCommand>
 {
@@ -17,10 +17,10 @@ public class DeleteScoreCardCommandHandler : IRequestHandler<DeleteScoreCardComm
     public async Task Handle(DeleteScoreCardCommand request, CancellationToken cancellationToken)
     {
         var entity = await _context.ScoreCards
-            .Where(l => l.id == request.id)
+            .Where(l => l.Id == request.Id)
             .SingleOrDefaultAsync(cancellationToken);
 
-        Guard.Against.NotFound(request.id, entity);
+        Guard.Against.NotFound(request.Id, entity);
 
         _context.ScoreCards.Remove(entity);
 

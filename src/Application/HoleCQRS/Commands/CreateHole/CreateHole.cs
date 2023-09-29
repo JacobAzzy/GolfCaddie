@@ -1,15 +1,14 @@
 ﻿using GolfCaddie.Application.Common.Interfaces;
-using GolfCaddie.Application.Common.Models;
 using GolfCaddie.Domain.Entities;
 
 namespace GolfCaddie.Application.HoleCQRS.Commands.CreateHole;
 
-public record CreateHoleCommand : IRequest<HoleDto>
+public record CreateHoleCommand : IRequest<int>
 {
-    public SaveHoleVM hole { get; init; }
+    public required SaveHoleVM hole { get; init; }
 }
 
-public class CreateHoleCommandHandler : IRequestHandler<CreateHoleCommand, HoleDto>
+public class CreateHoleCommandHandler : IRequestHandler<CreateHoleCommand, int>
 {
     private readonly IApplicationDbContext _context;
 
@@ -18,11 +17,11 @@ public class CreateHoleCommandHandler : IRequestHandler<CreateHoleCommand, HoleD
         _context = context;
     }
 
-    public async Task<HoleDto> Handle(CreateHoleCommand request, CancellationToken cancellationToken)
+    public async Task<int> Handle(CreateHoleCommand request, CancellationToken cancellationToken)
     {
-        var entity = new HoleDto
+        // simplify and test
+        var entity = new Hole
         {
-            id = request.hole.id,
             HoleNumber = request.hole.HoleNumber,
             Par = request.hole.Par,
             Score = request.hole.Score,
@@ -34,6 +33,6 @@ public class CreateHoleCommandHandler : IRequestHandler<CreateHoleCommand, HoleD
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        return entity;
+        return entity.Id;
     }
 }

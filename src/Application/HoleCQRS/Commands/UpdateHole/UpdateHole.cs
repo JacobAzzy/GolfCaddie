@@ -5,7 +5,8 @@ namespace GolfCaddie.Application.HoleCQRS.Commands.UpdateHole;
 
 public record UpdateHoleCommand : IRequest
 {
-    public SaveHoleVM hole { get; init; }
+    public int Id { get; init; }
+    public SaveHoleVM? hole { get; init; }
 }
 
 public class UpdateHoleCommandHandler : IRequestHandler<UpdateHoleCommand>
@@ -20,11 +21,10 @@ public class UpdateHoleCommandHandler : IRequestHandler<UpdateHoleCommand>
     public async Task Handle(UpdateHoleCommand request, CancellationToken cancellationToken)
     {
         var entity = await _context.Holes
-            .FindAsync(new object[] { request.hole.id }, cancellationToken);
+            .FindAsync(new object[] { request.Id }, cancellationToken);
 
-        Guard.Against.NotFound(request.hole.id, entity);
+        Guard.Against.NotFound(request.Id, entity);
 
-        entity.id = request.hole.id;
         entity.HoleNumber = request.hole.HoleNumber;
         entity.Par = request.hole.Par;  
         entity.Putts = request.hole.Putts;
@@ -32,6 +32,5 @@ public class UpdateHoleCommandHandler : IRequestHandler<UpdateHoleCommand>
         entity.Penalties = request.hole.Penalties;
 
         await _context.SaveChangesAsync(cancellationToken);
-
     }
 }

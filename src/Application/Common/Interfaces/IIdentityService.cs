@@ -1,5 +1,4 @@
-﻿using FluentResults;
-using GolfCaddie.Application.Common.Models;
+﻿using GolfCaddie.Application.Common.Models;
 
 namespace GolfCaddie.Application.Common.Interfaces;
 

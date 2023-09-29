@@ -24,7 +24,7 @@ public class UpdateHoleCommandValidator : AbstractValidator<UpdateScoreCardListC
     public async Task<bool> BeUniqueTitle(UpdateScoreCardListCommand model, int Id, CancellationToken cancellationToken)
     {
         return await _context.ScoreCards
-            .Where(l => l.id != model.scoreCard.id)
-            .AllAsync(l => l.id != Id, cancellationToken);
+            .Where(l => l.Id != model.Id)
+            .AllAsync(l => l.Id != Id, cancellationToken);
     }
 }

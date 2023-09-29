@@ -8,9 +8,6 @@ public class HoleConfiguration : IEntityTypeConfiguration<Hole>
 {
     public void Configure(EntityTypeBuilder<Hole> builder)
     {
-        builder.Property(v => v.id)
-            .IsRequired();
-
         builder.Property(v => v.Par)
             .IsRequired();
 

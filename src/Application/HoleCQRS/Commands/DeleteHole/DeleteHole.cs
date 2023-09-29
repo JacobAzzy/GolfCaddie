@@ -16,7 +16,7 @@ public class DeleteHoleCommandHandler : IRequestHandler<DeleteHoleCommand>
     public async Task Handle(DeleteHoleCommand request, CancellationToken cancellationToken)
     {
         var entity = await _context.Holes
-            .Where(l => l.id == request.Id)
+            .Where(l => l.Id == request.Id)
             .SingleOrDefaultAsync(cancellationToken);
 
         Guard.Against.NotFound(request.Id, entity);

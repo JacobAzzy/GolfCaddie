@@ -23,4 +23,9 @@
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="8.0.0-rc.1.23421.29" />
     <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="8.0.0-rc.1.23421.29" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Scripts\" />
+    <Folder Include="Views\Login\" />
+    <Folder Include="Views\Shared\" />
+  </ItemGroup>
 </Project>

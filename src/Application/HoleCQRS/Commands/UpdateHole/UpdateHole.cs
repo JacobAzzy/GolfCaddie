@@ -25,6 +25,7 @@ public class UpdateHoleCommandHandler : IRequestHandler<UpdateHoleCommand>
 
         Guard.Against.NotFound(request.Id, entity);
 
+        entity.ScoreCardId = request.hole.ScoreCardId;
         entity.HoleNumber = request.hole.HoleNumber;
         entity.Par = request.hole.Par;  
         entity.Putts = request.hole.Putts;

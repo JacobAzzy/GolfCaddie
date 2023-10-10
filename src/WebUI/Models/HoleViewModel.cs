@@ -1,15 +1,16 @@
-﻿using GolfCaddie.Domain.Common;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace GolfCaddie.Domain.Entities;
+namespace GolfCaddie.WebUI.Models;
 
-public class Hole : BaseAuditableEntity
+public class HoleViewModel
 {
-    public required int ScoreCardId { get; set; }
+    [Required]
     public required int HoleNumber { get; set; }
+    [Required]
     public required int Par { get; set; }
+    [Required]
     public required int Score { get; set; }
     public int Putts { get; set; }
     public int Penalties { get; set; }
-    
-    public ScoreCard ScoreCard { get; set; }
 }
+

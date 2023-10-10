@@ -1,9 +1,30 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<GolfCaddie.WebUI.Models.ScoreCardViewModel>
+
+@{
+    ViewBag.Title = "Index";
+    // Layout = "~/Views/Home/_Layout.cshtml";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h2>Home</h2>
 
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().CourseName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Date)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Holes)
+            </td>
+        </tr>
+    }
+
+</table>

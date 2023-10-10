@@ -22,6 +22,7 @@ public class CreateHoleCommandHandler : IRequestHandler<CreateHoleCommand, int>
         // simplify and test
         var entity = new Hole
         {
+            ScoreCardId = request.hole.ScoreCardId,
             HoleNumber = request.hole.HoleNumber,
             Par = request.hole.Par,
             Score = request.hole.Score,

@@ -83,7 +83,7 @@ public class ApplicationDbContextInitialiser
             await _userManager.CreateAsync(user, "123465789");
             if (!string.IsNullOrWhiteSpace(userRole.Name))
             {
-                await _userManager.AddToRolesAsync(user, new [] { userRole.Name });
+                await _userManager.AddToRolesAsync(user, new[] { userRole.Name });
             }
         }
     }

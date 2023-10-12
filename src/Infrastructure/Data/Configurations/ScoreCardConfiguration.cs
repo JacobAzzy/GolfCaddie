@@ -8,14 +8,23 @@ public class ScoreCardConfiguration : IEntityTypeConfiguration<ScoreCard>
 {
     public void Configure(EntityTypeBuilder<ScoreCard> builder)
     {
-        builder.Property(v => v.CourseName)
-            .IsRequired()
-            .HasMaxLength(200);
+        builder.HasKey(x => x.Id);
 
-        builder.Property(v => v.Holes)
+        builder.HasMany(x => x.Holes)
+            .WithOne(x => x.ScoreCard);
+
+        builder.Property(v => v.UserId)
+            .IsRequired();
+
+        builder.Property(v => v.CourseName)
             .IsRequired();
 
         builder.Property(v => v.Date)
             .IsRequired();
+
+        builder.Property(v => v.ConcurrencyToken)
+            .IsConcurrencyToken()
+            .IsRowVersion()
+            .HasColumnType("timestamp");
     }
 }

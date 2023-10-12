@@ -23,11 +23,9 @@ public class HoleConfiguration : IEntityTypeConfiguration<Hole>
         builder.Property(v => v.Score)
             .IsRequired();
 
-        builder.Property(v => v.Putts)
-            .IsRequired(false);
+        builder.Property(v => v.Putts);
 
-        builder.Property(v => v.Penalties)
-            .IsRequired(false);
+        builder.Property(v => v.Penalties);
 
         builder.Property(v => v.ConcurrencyToken)
             .IsConcurrencyToken()

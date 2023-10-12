@@ -1,5 +1,4 @@
 ﻿using GolfCaddie.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace GolfCaddie.Application.Common.Interfaces;
 

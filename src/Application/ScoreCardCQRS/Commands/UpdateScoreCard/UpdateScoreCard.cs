@@ -25,9 +25,9 @@ public class UpdateScoreCardListCommandHandler : IRequestHandler<UpdateScoreCard
 
         Guard.Against.NotFound(request.Id, entity);
 
+        entity.UserId = request.scoreCard.UserId;
         entity.Id = request.Id;
         entity.CourseName = request.scoreCard.CourseName;
-        entity.Holes = request.scoreCard.Holes;
         entity.Date = request.scoreCard.Date;
 
         await _context.SaveChangesAsync(cancellationToken);

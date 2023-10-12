@@ -22,6 +22,7 @@ public class CreateScoreCardCommandHandler : IRequestHandler<CreateScoreCardComm
     {
         var entity = new ScoreCard
         { 
+            UserId = request.scoreCard.UserId,
             CourseName = request.scoreCard.CourseName,
             Date = request.scoreCard.Date,
             Holes = request.scoreCard.Holes,

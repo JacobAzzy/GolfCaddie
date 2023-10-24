@@ -4,6 +4,7 @@ using GolfCaddie.Domain.Entities;
 using GolfCaddie.Infrastructure.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -76,15 +77,15 @@ public class ApplicationDbContextInitialiser
         }
 
         // Default user
-        var user = new ApplicationUser { UserName = "jacob.asmundson", Email = "jacob.asmundson@localhost.ca" };
+        var user = new ApplicationUser 
+        { 
+            UserName = "jacob.asmundson", 
+            Email = "jacob.asmundson@localhost.ca" 
+        };
 
         if (_userManager.Users.All(u => u.UserName != user.UserName))
         {
-            await _userManager.CreateAsync(user, "123465789");
-            if (!string.IsNullOrWhiteSpace(userRole.Name))
-            {
-                await _userManager.AddToRolesAsync(user, new[] { userRole.Name });
-            }
+            var result = await _userManager.CreateAsync(user, "FastPass1!");
         }
     }
 }

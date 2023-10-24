@@ -2,7 +2,7 @@
 
 namespace GolfCaddie.Application.ScoreCardCQRS.Commands.UpdateScoreCard;
 
-public class UpdateHoleCommandValidator : AbstractValidator<UpdateScoreCardListCommand>
+public class UpdateHoleCommandValidator : AbstractValidator<UpdateScoreCardCommand>
 {
     private readonly IApplicationDbContext _context;
 
@@ -21,7 +21,7 @@ public class UpdateHoleCommandValidator : AbstractValidator<UpdateScoreCardListC
             .NotEmpty();
     }
 
-    public async Task<bool> BeUniqueTitle(UpdateScoreCardListCommand model, int Id, CancellationToken cancellationToken)
+    public async Task<bool> BeUniqueTitle(UpdateScoreCardCommand model, int Id, CancellationToken cancellationToken)
     {
         return await _context.ScoreCards
             .Where(l => l.Id != model.Id)

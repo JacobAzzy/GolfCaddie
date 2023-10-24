@@ -17,6 +17,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.0-rc.2.23509.1" />
     <PackageReference Include="NSwag.AspNetCore" Version="13.20.0" />
     <PackageReference Include="NSwag.MSBuild" Version="13.20.0">
       <PrivateAssets>all</PrivateAssets>

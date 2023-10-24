@@ -14,7 +14,7 @@ public class ScoreCard : BaseAuditableEntity
 // ScoreCard DTO
 // Same as Entity
 
-// ScoreCardHistoryVM (ScoreCard VM)
+// ScoreCardDto (ScoreCard VM)
 //  List<ScoreCard>
 //  Handicap
 //  Average Putts

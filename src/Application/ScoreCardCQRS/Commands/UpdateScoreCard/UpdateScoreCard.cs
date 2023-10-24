@@ -1,24 +1,25 @@
 ﻿using GolfCaddie.Application.Common.Interfaces;
 using GolfCaddie.Application.ScoreCardCQRS.Commands.CreateScoreCard;
+using GolfCaddie.Domain.Entities;
 
 namespace GolfCaddie.Application.ScoreCardCQRS.Commands.UpdateScoreCard;
 
-public record UpdateScoreCardListCommand : IRequest
+public record UpdateScoreCardCommand : IRequest<ScoreCard>
 {
-    public int Id { get; init; }
-    public SaveScoreCardVM? scoreCard { get; init; }
+    public int Id { get; set; }
+    public SaveScoreCardVM? scoreCard { get; set; }
 }
 
-public class UpdateScoreCardListCommandHandler : IRequestHandler<UpdateScoreCardListCommand>
+public class UpdateScoreCardCommandHandler : IRequestHandler<UpdateScoreCardCommand, ScoreCard>
 {
     private readonly IApplicationDbContext _context;
 
-    public UpdateScoreCardListCommandHandler(IApplicationDbContext context)
+    public UpdateScoreCardCommandHandler(IApplicationDbContext context)
     {
         _context = context;
     }
 
-    public async Task Handle(UpdateScoreCardListCommand request, CancellationToken cancellationToken)
+    public async Task<ScoreCard> Handle(UpdateScoreCardCommand request, CancellationToken cancellationToken)
     {
         var entity = await _context.ScoreCards
             .FindAsync(new object[] { request.Id }, cancellationToken);
@@ -31,5 +32,7 @@ public class UpdateScoreCardListCommandHandler : IRequestHandler<UpdateScoreCard
         entity.Date = request.scoreCard.Date;
 
         await _context.SaveChangesAsync(cancellationToken);
+
+        return entity;
     }
 }

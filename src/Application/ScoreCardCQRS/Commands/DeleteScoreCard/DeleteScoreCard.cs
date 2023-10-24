@@ -3,9 +3,9 @@
 namespace GolfCaddie.Application.ScoreCardCQRS.Commands.DeleteScoreCard;
 
 
-public record DeleteScoreCardCommand(int Id) : IRequest;
+public record DeleteScoreCardCommand(int Id) : IRequest<bool>;
 
-public class DeleteScoreCardCommandHandler : IRequestHandler<DeleteScoreCardCommand>
+public class DeleteScoreCardCommandHandler : IRequestHandler<DeleteScoreCardCommand, bool>
 {
     private readonly IApplicationDbContext _context;
 
@@ -14,16 +14,25 @@ public class DeleteScoreCardCommandHandler : IRequestHandler<DeleteScoreCardComm
         _context = context;
     }
 
-    public async Task Handle(DeleteScoreCardCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(DeleteScoreCardCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _context.ScoreCards
-            .Where(l => l.Id == request.Id)
-            .SingleOrDefaultAsync(cancellationToken);
+        try
+        {
+            var entity = await _context.ScoreCards
+           .Where(l => l.Id == request.Id)
+           .SingleOrDefaultAsync(cancellationToken);
 
-        Guard.Against.NotFound(request.Id, entity);
+            Guard.Against.NotFound(request.Id, entity);
 
-        _context.ScoreCards.Remove(entity);
+            _context.ScoreCards.Remove(entity);
 
-        await _context.SaveChangesAsync(cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
+
+            return true;
+        }
+        catch (Exception)
+        {
+            throw;
+        }
     }
 }

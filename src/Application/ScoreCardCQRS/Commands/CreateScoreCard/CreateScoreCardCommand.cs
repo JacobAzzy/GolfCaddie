@@ -6,7 +6,8 @@ namespace GolfCaddie.Application.ScoreCardCQRS.Commands.CreateScoreCard;
 
 public record CreateScoreCardCommand : IRequest<int>
 {
-    public SaveScoreCardVM? scoreCard { get; init; }
+    //public SaveScoreCardVM? scoreCard { get; set; }
+    public required ScoreCardDto scoreCardDto { get; set; }
 }
 
 public class CreateScoreCardCommandHandler : IRequestHandler<CreateScoreCardCommand, int>
@@ -20,18 +21,26 @@ public class CreateScoreCardCommandHandler : IRequestHandler<CreateScoreCardComm
 
     public async Task<int> Handle(CreateScoreCardCommand request, CancellationToken cancellationToken)
     {
-        var entity = new ScoreCard
-        { 
-            UserId = request.scoreCard.UserId,
-            CourseName = request.scoreCard.CourseName,
-            Date = request.scoreCard.Date,
-            Holes = request.scoreCard.Holes,
-        };
+        try
+        {
+            var scoreCard = new ScoreCard
+            {
+                UserId = "", // ???
+                Id = request.scoreCardDto.id,
+                CourseName = request.scoreCardDto.CourseName,
+                Date = request.scoreCardDto.Date,
+                Holes = request.scoreCardDto.Holes
+            };
 
-        _context.ScoreCards.Add(entity);
+            _context.ScoreCards.Add(scoreCard);
+            await _context.SaveChangesAsync(cancellationToken);
 
-        await _context.SaveChangesAsync(cancellationToken);
+            return scoreCard.Id;
+        }
 
-        return entity.Id;
+        catch (Exception)
+        {
+            throw;
+        }
     }
 }

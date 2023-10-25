@@ -19,13 +19,18 @@ public class ScoreCardController : Controller
         _mediator = mediator;
     }
 
-
-    [Route("api/products")]
-    [ApiController]
-    public class ProductsController : ControllerBase
+    [HttpGet]
+    public async Task<IActionResult> ViewScoreCardAsync()
     {
-        private readonly IMediator _mediator;
-        public ProductsController(IMediator mediator) => _mediator = mediator;
+        var query = new GetAllScoreCardsQuery();
+        var scoreCard = await _mediator.Send(query);
+
+        if (scoreCard == null)
+        {
+            return NotFound();
+        }
+
+        return View();
     }
 
     // Add ScoreCard

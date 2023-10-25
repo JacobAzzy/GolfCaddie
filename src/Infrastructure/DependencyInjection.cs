@@ -15,8 +15,6 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
         var connectionString = configuration.GetConnectionString("GolfCaddieConn");
-        //var envVariableName = configuration.GetValue<string>("EnvKeys:GolfCaddieConn");
-        //var connectionString = Environment.GetEnvironmentVariable(envVariableName);
 
         Guard.Against.Null(connectionString, message: "Connection string 'GolfCaddieConn' not found.");
 

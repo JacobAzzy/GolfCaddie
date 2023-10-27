@@ -25,11 +25,18 @@ public class CreateScoreCardCommandHandler : IRequestHandler<CreateScoreCardComm
         {
             var scoreCard = new ScoreCard
             {
-                UserId = "", // ???
-                Id = request.scoreCardDto.id,
+                UserId = request.scoreCardDto.UserId,
                 CourseName = request.scoreCardDto.CourseName,
                 Date = request.scoreCardDto.Date,
-                Holes = request.scoreCardDto.Holes
+                Holes = request.scoreCardDto.Holes.Select(hole => new Hole()
+                {
+                    ScoreCardId = 1,
+                    HoleNumber = hole.HoleNumber,
+                    Par = hole.Par,
+                    Score = hole.Score,
+                    Putts = hole.Putts,
+                    Penalties = hole.Penalties
+                }).ToList()
             };
 
             _context.ScoreCards.Add(scoreCard);

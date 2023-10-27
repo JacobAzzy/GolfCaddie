@@ -2,7 +2,6 @@
 
 public class HoleDto
 {
-    public int id { get; set; }
     public required int HoleNumber { get; set; }
     public required int Par { get; set; }
     public required int Score { get; set; }

@@ -10,6 +10,9 @@ public class CreateScoreCardCommandValidator : AbstractValidator<CreateScoreCard
     {
         _context = context;
 
+        RuleFor(v => v.scoreCardDto.UserId)
+            .NotEmpty();
+
         RuleFor(v => v.scoreCardDto.CourseName)
             .NotEmpty()
             .MaximumLength(200);

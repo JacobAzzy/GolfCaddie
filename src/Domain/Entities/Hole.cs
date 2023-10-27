@@ -10,6 +10,6 @@ public class Hole : BaseAuditableEntity
     public required int Score { get; set; }
     public int Putts { get; set; }
     public int Penalties { get; set; }
-    
+  
     public ScoreCard ScoreCard { get; set; }
 }

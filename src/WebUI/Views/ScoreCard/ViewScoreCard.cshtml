@@ -1,9 +1,288 @@
-﻿
+﻿@model List<GolfCaddie.Application.Common.Models.ScoreCardDto>
 @{
     ViewData["Title"] = "ViewScoreCard";
 }
 
 <div class="text-center">
     <h1 class="display-4">Scorecards</h1>
+    @foreach (var scorecard in Model)
+    {
+        <h2>Course: @scorecard.CourseName</h2>
+        <h3>Date: @scorecard.Date </h3>
+        @foreach (var hole in scorecard.Holes)
+        {
+            <p>Hole Number: @hole.HoleNumber | Par: @hole.Par | Score: @hole.Score | Putts: @hole.Putts | Penalties: @hole.Penalties</p>
+        }
+    }
 </div>
+
+
+<html>
+<head>
+    <title>Previous Scores</title>
+    <link href="scorecardStyle.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+    @foreach (var scorecard in Model)
+    {
+        var holeList = scorecard.Holes.ToList();
+
+        <h1 class="header text-center"> <strong>@scorecard.CourseName - @scorecard.Date.ToString("MMMM dd, yyyy")</strong></h1>
+        <div class="table-responsive">
+            <table class="table table-condensed table-bordered">
+
+                @* Hole Numbers *@
+                <tr class="success text-center">
+                    <th class="text-left">Hole</th>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>3</td>
+                    <td>4</td>
+                    <td>5</td>
+                    <td>6</td>
+                    <td>7</td>
+                    <td>8</td>
+                    <td>9</td>
+                    <th class="text-uppercase"><strong>Out</strong></th>
+                    <td>10</td>
+                    <td>11</td>
+                    <td>12</td>
+                    <td>13</td>
+                    <td>14</td>
+                    <td>15</td>
+                    <td>16</td>
+                    <td>17</td>
+                    <td>18</td>
+                    <th class="text-uppercase">In</th>
+                    <th class="text-uppercase">Total</th>
+                </tr>
+
+                @* Par *@
+                <tr id="par" class="text-center" style="background-color: black; color: white;">
+                    <td class="text-left"><strong>Par</strong></td>
+                    @{
+                        var currentHolePar = 0;
+                        var frontPar = 0;
+                        var backPar = 0;
+                    }
+                    @for (var holeCounter = 1; holeCounter < 19; holeCounter++)
+                    {
+                        if (holeList[currentHolePar].HoleNumber == holeCounter)
+                        {
+                            <td>@holeList[currentHolePar].Par</td>
+
+                            if (holeCounter <= 9)
+                            {
+                                frontPar += holeList[currentHolePar].Par;
+                            }
+                            if (holeCounter > 9 && holeCounter <= 18)
+                            {
+                                backPar += holeList[currentHolePar].Par;
+                            }
+                            if (holeList.Count() > currentHolePar + 1)
+                            {
+                                currentHolePar++;
+                            }                            
+                        }
+
+                        else
+                        {
+                            <td></td>
+                        }
+
+                        if (holeCounter == 9)
+                        {
+                            <td>@frontPar</td>
+                        }
+                        if (holeCounter == 18)
+                        {
+                            if (backPar != 0)
+                            {
+                                <td>@backPar</td>
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
+                        }
+                    }
+                    @{
+                        var totalPar = frontPar + backPar;
+                    }
+                    <td id="total">@totalPar</td>
+                </tr>
+
+                @* Strokes *@
+                <tr class="score text-center">
+                    <td class="text-left"><strong>Strokes</strong></td>
+                    @{
+                        var currentHoleStrokes = 0;
+                        var frontStrokes = 0;
+                        var backStrokes = 0;
+                    }
+                    @for (var holeCounter = 1; holeCounter < 19; holeCounter++)
+                    {
+                        if (holeList[currentHoleStrokes].HoleNumber == holeCounter)
+                        {
+                            <td>@holeList[currentHoleStrokes].Score</td>
+
+                            if (holeCounter <= 9)
+                            {
+                                frontStrokes += holeList[currentHoleStrokes].Score;
+                            }
+                            if (holeCounter > 9 && holeCounter <= 18)
+                            {
+                                backStrokes += holeList[currentHoleStrokes].Score;
+                            }
+                            if (holeList.Count() > currentHoleStrokes + 1)
+                            {
+                                currentHoleStrokes++;
+                            }
+                        }
+
+                        else
+                        {
+                            <td></td>
+                        }
+
+                        if (holeCounter == 9)
+                        {
+                            <td>@frontStrokes</td>
+                        }
+                        if (holeCounter == 18)
+                        {
+                            if (backStrokes != 0)
+                            {
+                                <td>@backStrokes</td>
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
+                        }
+                    }
+                    @{
+                        var totalStrokes = frontStrokes + backStrokes;
+                    }
+                    <td id="total">@totalStrokes</td>
+                </tr>
+
+                @* Putts *@
+                <tr class="score text-center">
+                    <td class="text-left"><strong>Putts</strong></td>
+                    @{
+                        var currentHolePutts = 0;
+                        var frontPutts = 0;
+                        var backPutts = 0;
+                    }
+                    @for (var holeCounter = 1; holeCounter < 19; holeCounter++)
+                    {
+                        if (holeList[currentHolePutts].HoleNumber == holeCounter)
+                        {
+                            <td>@holeList[currentHolePutts].Putts</td>
+
+                            if (holeCounter <= 9)
+                            {
+                                frontPutts += holeList[currentHolePutts].Putts;
+                            }
+                            if (holeCounter > 9 && holeCounter <= 18)
+                            {
+                                backPutts += holeList[currentHolePutts].Putts;
+                            }
+                            if (holeList.Count() > currentHolePutts + 1)
+                            {
+                                currentHolePutts++;
+                            }
+                        }
+
+                        else
+                        {
+                            <td></td>
+                        }
+
+                        if (holeCounter == 9)
+                        {
+                            <td>@frontPutts</td>
+                        }
+                        if (holeCounter == 18)
+                        {
+                            if (backPutts != 0)
+                            {
+                                <td>@backPutts</td>
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
+                        }
+                    }
+                    @{
+                        var totalPutts = frontPutts + backPutts;
+                    }
+                    <td id="total">@totalPutts</td>
+                </tr>
+
+                @* Penalties *@
+                <tr class="score text-center">
+                    <td class="text-left"><strong>Penalties</strong></td>
+                    @{
+                        var currentHolePenalties = 0;
+                        var frontPenalties = 0;
+                        var backPenalties = 0;
+                    }
+                    @for (var holeCounter = 1; holeCounter < 19; holeCounter++)
+                    {
+                        if (holeList[currentHolePenalties].HoleNumber == holeCounter)
+                        {
+                            <td>@holeList[currentHolePenalties].Penalties</td>
+
+                            if (holeCounter <= 9)
+                            {
+                                frontPenalties += holeList[currentHolePenalties].Penalties;
+                            }
+                            if (holeCounter > 9 && holeCounter <= 18)
+                            {
+                                backPenalties += holeList[currentHolePenalties].Penalties;
+                            }
+                            if (holeList.Count() > currentHolePenalties + 1)
+                            {
+                                currentHolePenalties++;
+                            }
+                        }
+
+                        else
+                        {
+                            <td></td>
+                        }
+
+                        if (holeCounter == 9)
+                        {
+                            <td>@frontPenalties</td>
+                        }
+                        if (holeCounter == 18)
+                        {
+                            if (backPar != 0)
+                            {
+                                <td>@backPenalties</td>
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
+                        }
+                    }
+                    @{
+                        var totalPenalties = frontPenalties + backPenalties;
+                    }
+                    <td id="total">@totalPenalties</td>
+                </tr>
+            </table>
+        </div>
+    }
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.slim.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="./scorecard.js"></script>
+</body>
+</html>
 

@@ -30,7 +30,7 @@ public class ScoreCardController : Controller
             return NotFound();
         }
 
-        return View();
+        return View(scoreCard);
     }
 
     // Add ScoreCard

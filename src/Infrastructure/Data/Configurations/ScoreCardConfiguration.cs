@@ -1,4 +1,6 @@
-﻿using GolfCaddie.Domain.Entities;
+﻿using AutoMapper;
+using GolfCaddie.Application.Common.Models;
+using GolfCaddie.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

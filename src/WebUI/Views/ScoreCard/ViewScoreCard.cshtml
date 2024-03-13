@@ -5,7 +5,7 @@
 
 <div class="text-center">
     <h1 class="display-4">Scorecards</h1>
-    @foreach (var scorecard in Model)
+@*     @foreach (var scorecard in Model)
     {
         <h2>Course: @scorecard.CourseName</h2>
         <h3>Date: @scorecard.Date </h3>
@@ -13,7 +13,7 @@
         {
             <p>Hole Number: @hole.HoleNumber | Par: @hole.Par | Score: @hole.Score | Putts: @hole.Putts | Penalties: @hole.Penalties</p>
         }
-    }
+    } *@
 </div>
 
 
@@ -44,7 +44,7 @@
                     <td>7</td>
                     <td>8</td>
                     <td>9</td>
-                    <th class="text-uppercase"><strong>Out</strong></th>
+                    <th class="text-uppercase text-center"><strong>Out</strong></th>
                     <td>10</td>
                     <td>11</td>
                     <td>12</td>
@@ -54,8 +54,8 @@
                     <td>16</td>
                     <td>17</td>
                     <td>18</td>
-                    <th class="text-uppercase">In</th>
-                    <th class="text-uppercase">Total</th>
+                    <th class="text-uppercase text-center">In</th>
+                    <th class="text-uppercase text-center">Total</th>
                 </tr>
 
                 @* Par *@

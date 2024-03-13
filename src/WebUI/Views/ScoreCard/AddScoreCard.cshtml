@@ -1,0 +1,116 @@
+﻿@{
+    ViewData["Title"] = "AddScoreCard";
+}
+
+<h1>Add Score Card</h1>
+
+<html>
+<head>
+    <title>Enter Score</title>
+    <link href="scorecardStyle.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+    <form asp-asp-controller="ScoreCardController" asp-action="AddScoreCard" method="post">
+        <h1 class="header text-center"> <input name="scoreCardDto.CourseName"><strong></strong></input></h1>
+        <div class="text-center m-3">
+            <input style="background-color:dimgrey; color: floralwhite" type="date" id="start" name="scoreCardDto.Date" />
+        </div>        
+        <div class="table-responsive">
+            <table class="table table-condensed table-bordered">
+
+                @* Hole Numbers *@
+                <tr class="success text-center">
+                    <th class="text-left">Hole</th>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>3</td>
+                    <td>4</td>
+                    <td>5</td>
+                    <td>6</td>
+                    <td>7</td>
+                    <td>8</td>
+                    <td>9</td>
+                    <th class="text-uppercase"><strong>Out</strong></th>
+                    <td>10</td>
+                    <td>11</td>
+                    <td>12</td>
+                    <td>13</td>
+                    <td>14</td>
+                    <td>15</td>
+                    <td>16</td>
+                    <td>17</td>
+                    <td>18</td>
+                    <th class="text-uppercase">In</th>
+                    <th class="text-uppercase">Total</th>
+                </tr>
+
+                @* Par *@
+                <tr id="par" class="text-center" style="background-color: black; color: white;">
+                    <td class="text-left"><strong>Par</strong></td>
+                    @for(int i = 0; i < 18; i++)
+                    {
+                        if (i == 9)
+                        {
+                            <td class="disabled"></td>
+                        }
+                        <td><input name="scoreCardDto.Holes[@i].Par" type="number" min="3" max="99" style="background-color: black;" /></td>
+                    }              
+                    <td class="disabled"></td>
+                    <td id="total" class="disabled"></td>
+                </tr>
+
+                @* Strokes *@
+                <tr class="score text-center">
+                    <td class="text-left"><strong>Strokes</strong></td>
+                    @for(int i = 0; i < 18; i++)
+                    {
+                        if (i == 9)
+                        {
+                            <td class="disabled"></td>
+                        }
+                        <td><input name="scoreCardDto.Holes[@i].Score" type="number" min="0" max="99" /> </td>
+                    }
+                    <td class="disabled"></td>
+                    <td id="total" class="disabled"></td>
+                </tr>
+
+                @* Putts *@
+                <tr class="score text-center">
+                    <td class="text-left"><strong>Putts</strong></td>
+                    @for(int i = 0; i < 18; i++)
+                    {
+                        if (i == 9)
+                        {
+                            <td class="disabled"></td>
+                        }
+                        <td><input name="scoreCardDto.Holes[@i].Putts" type="number" min="0" max="99" /> </td>
+                    }
+                    <td class="disabled"></td>
+                    <td id="total" class="disabled"></td>
+                </tr>
+
+                @* Penalties *@
+                <tr class="score text-center">
+                    <td class="text-left"><strong>Penalties</strong></td>
+                    @for(int i = 0; i < 18; i++)
+                    {
+                        if (i == 9)
+                        {
+                            <td class="disabled"></td>
+                        }
+                        <td><input name="scoreCardDto.Holes[@i].Penalties" type="number" min="0" max="99" /> </td>
+                    }
+                    <td class="disabled"></td>
+                    <td id="total" class="disabled"></td>
+                </tr>
+            </table>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+    </form>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.slim.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="./scorecard.js"></script>
+</body>
+</html>
+

@@ -5,6 +5,7 @@ using GolfCaddie.Application.ScoreCardCQRS.Queries.GetScoreCard;
 using GolfCaddie.Application.ScoreCardCQRS.Commands.DeleteScoreCard;
 using GolfCaddie.Application.ScoreCardCQRS.Commands.CreateScoreCard;
 using GolfCaddie.Application.ScoreCardCQRS.Commands.UpdateScoreCard;
+using GolfCaddie.Application.Common.Models;
 
 namespace WebUI.Controllers;
 
@@ -33,12 +34,18 @@ public class ScoreCardController : Controller
         return View(scoreCard);
     }
 
+    // Navigate to Add ScoreCard
+    public IActionResult AddScoreCard()
+    {
+        return View("AddScoreCard");
+    }
+
     // Add ScoreCard
     [HttpPost]
-    public async Task<IActionResult> AddScoreCard(CreateScoreCardCommand command)
+    public async Task<IActionResult> AddScoreCard(CreateScoreCardCommand command, ScoreCardDto scoreCardDto)
     {
         var addedScoreCard = await _mediator.Send(command);
-        return View("EditScoreCard");
+        return View("~/Views/ScoreCard/AddScoreCard.cshtml");
     }
 
     // Delete a ScoreCard
@@ -66,21 +73,6 @@ public class ScoreCardController : Controller
         var updatedScoreCard = await _mediator.Send(command);
         ViewData["Message"] = updatedScoreCard;
         return View("EditScoreCard");
-    }
-
-    // Get All ScoreCard
-    [HttpGet]
-    public async Task<IActionResult> GetAllScoreCards()
-    {
-        var query = new GetAllScoreCardsQuery();
-        var scoreCard = await _mediator.Send(query);
-
-        if (scoreCard == null)
-        {
-            return NotFound();
-        }
-
-        return View("ViewScoreCards");
     }
 
     // Get ScoreCard by Id

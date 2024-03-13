@@ -23,23 +23,46 @@ public class CreateScoreCardCommandHandler : IRequestHandler<CreateScoreCardComm
     {
         try
         {
+            //TODO: Change to actual userId once implemented
+            request.scoreCardDto.UserId = "61d3f46d-8748-4485-aece-0a94d36f8b00";
+
+            if (request.scoreCardDto.Holes != null)
+            {
+                int holeNumber = 1;
+                for (int i = 0; i < request.scoreCardDto.Holes.Count(); i++)
+                {
+                    if (request.scoreCardDto.Holes[i].Par == 0)
+                    {
+                        request.scoreCardDto.Holes.RemoveAt(i);
+                        i--; // the next hole could be null so we check the same spot again
+                    }
+                    else
+                    {
+                        request.scoreCardDto.Holes[i].HoleNumber = holeNumber;                        
+                    }
+                    holeNumber++;
+                }
+            }
+
             var scoreCard = new ScoreCard
             {
                 UserId = request.scoreCardDto.UserId,
                 CourseName = request.scoreCardDto.CourseName,
-                Date = request.scoreCardDto.Date,
-                Holes = request.scoreCardDto.Holes.Select(hole => new Hole()
-                {
-                    ScoreCardId = 1,
-                    HoleNumber = hole.HoleNumber,
-                    Par = hole.Par,
-                    Score = hole.Score,
-                    Putts = hole.Putts,
-                    Penalties = hole.Penalties
-                }).ToList()
+                Date = request.scoreCardDto.Date
             };
 
+            scoreCard.Holes = request.scoreCardDto.Holes.Select(hole => new Hole()
+            {
+                ScoreCardId = scoreCard.Id,
+                HoleNumber = hole.HoleNumber,
+                Par = hole.Par,
+                Score = hole.Score,
+                Putts = hole.Putts,
+                Penalties = hole.Penalties
+            }).ToList();
+
             _context.ScoreCards.Add(scoreCard);
+
             await _context.SaveChangesAsync(cancellationToken);
 
             return scoreCard.Id;

@@ -1,27 +1,25 @@
-﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
-using MediatR;
-using GolfCaddie.Application.ScoreCardCQRS.Queries.GetScoreCard;
-using GolfCaddie.Application.ScoreCardCQRS.Commands.DeleteScoreCard;
+﻿using GolfCaddie.Application.Common.Models;
 using GolfCaddie.Application.ScoreCardCQRS.Commands.CreateScoreCard;
+using GolfCaddie.Application.ScoreCardCQRS.Commands.DeleteScoreCard;
 using GolfCaddie.Application.ScoreCardCQRS.Commands.UpdateScoreCard;
-using GolfCaddie.Application.Common.Models;
+using GolfCaddie.Application.ScoreCardCQRS.Queries.GetScoreCard;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebUI.Controllers;
 
 public class ScoreCardController : Controller
 {
-    private readonly ILogger<ScoreCardController> _logger;
     private readonly IMediator _mediator;
 
-    public ScoreCardController(ILogger<ScoreCardController> logger, IMediator mediator)
+    public ScoreCardController(IMediator mediator)
     {
-        _logger = logger;
         _mediator = mediator;
     }
 
+    // Get All ScoreCards
     [HttpGet]
-    public async Task<IActionResult> ViewScoreCardAsync()
+    public async Task<IActionResult> ViewScoreCard()
     {
         var query = new GetAllScoreCardsQuery();
         var scoreCard = await _mediator.Send(query);
@@ -44,7 +42,7 @@ public class ScoreCardController : Controller
     [HttpPost]
     public async Task<IActionResult> AddScoreCard(CreateScoreCardCommand command, ScoreCardDto scoreCardDto)
     {
-        var addedScoreCard = await _mediator.Send(command);
+        await _mediator.Send(command);
         return View("~/Views/ScoreCard/AddScoreCard.cshtml");
     }
 
@@ -65,19 +63,7 @@ public class ScoreCardController : Controller
         }
     }
 
-    // Edit ScoreCard
-    [HttpPut("{id}")]
-    public async Task<IActionResult> EditScoreCard(int id, UpdateScoreCardCommand command)
-    {
-        command.Id = id;
-        var updatedScoreCard = await _mediator.Send(command);
-        ViewData["Message"] = updatedScoreCard;
-        return View("EditScoreCard");
-    }
-
-    // Get ScoreCard by Id
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetScoreCard(int id)
+    public async Task<IActionResult> EditScoreCard(int id)
     {
         var query = new GetScoreCardByIdQuery { ScoreCardId = id };
         var scoreCard = await _mediator.Send(query);
@@ -87,7 +73,17 @@ public class ScoreCardController : Controller
             return NotFound();
         }
 
-        return View("ViewScoreCards");
+        return View(scoreCard);
+    }
+
+    // Edit ScoreCard
+    [HttpPost]
+    public async Task<IActionResult> EditScoreCard(int id, UpdateScoreCardCommand command, ScoreCardDto scoreCardDto)
+    {
+        command.Id = id;
+        await _mediator.Send(command);
+
+        return RedirectToAction(nameof(ViewScoreCard));
     }
 }
 

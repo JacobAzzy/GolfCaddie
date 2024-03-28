@@ -6,7 +6,6 @@ namespace GolfCaddie.Application.ScoreCardCQRS.Commands.CreateScoreCard;
 
 public record CreateScoreCardCommand : IRequest<int>
 {
-    //public SaveScoreCardVM? scoreCard { get; set; }
     public required ScoreCardDto scoreCardDto { get; set; }
 }
 

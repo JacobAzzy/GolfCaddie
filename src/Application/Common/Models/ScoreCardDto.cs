@@ -4,6 +4,7 @@ namespace GolfCaddie.Application.Common.Models;
 
 public class ScoreCardDto
 {
+    public int ScoreCardId { get; set; }
     public required string UserId { get; set; }
     public required string CourseName { get; set; }
     public DateTime Date { get; set; }

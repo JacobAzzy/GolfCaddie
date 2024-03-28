@@ -10,14 +10,14 @@ public class UpdateHoleCommandValidator : AbstractValidator<UpdateScoreCardComma
     {
         _context = context;
 
-        RuleFor(v => v.scoreCard.CourseName)
+        RuleFor(v => v.scoreCardDto.CourseName)
             .NotEmpty()
             .MaximumLength(200);
 
-        RuleFor(v => v.scoreCard.Holes)
+        RuleFor(v => v.scoreCardDto.Holes)
             .NotEmpty();
 
-        RuleFor(v => v.scoreCard.Date)
+        RuleFor(v => v.scoreCardDto.Date)
             .NotEmpty();
     }
 

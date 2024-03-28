@@ -11,33 +11,27 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body>
-    <form>
-        <h1 class="header text-center"> <input><strong></strong></input></h1>
+    <form asp-action="EditScoreCard" asp-route-id="@Model.ScoreCardId" method="post">
+        <h1 class="header text-center"> <input name="scoreCardDto.CourseName" value="@Model.CourseName"><strong></strong></input></h1>
+        <div class="text-center m-3">
+            <input style="background-color:dimgrey; color: floralwhite" type="date" id="start" name="scoreCardDto.Date" value="@Model.Date.ToString("yyyy-MM-dd")" />
+        </div>
         <div class="table-responsive">
             <table class="table table-condensed table-bordered">
 
                 @* Hole Numbers *@
                 <tr class="success text-center">
                     <th class="text-left">Hole</th>
-                    <td>1</td>
-                    <td>2</td>
-                    <td>3</td>
-                    <td>4</td>
-                    <td>5</td>
-                    <td>6</td>
-                    <td>7</td>
-                    <td>8</td>
-                    <td>9</td>
-                    <th class="text-uppercase"><strong>Out</strong></th>
-                    <td>10</td>
-                    <td>11</td>
-                    <td>12</td>
-                    <td>13</td>
-                    <td>14</td>
-                    <td>15</td>
-                    <td>16</td>
-                    <td>17</td>
-                    <td>18</td>
+                    @for (int i = 0; i < 18; i++)
+                    {
+                        if (i == 9)
+                        {
+                            <th class="text-uppercase"><strong>Out</strong></th>
+                        }                      
+                        
+                        var holeNumber = i + 1;
+                        <td>@holeNumber</td>
+                    }
                     <th class="text-uppercase">In</th>
                     <th class="text-uppercase">Total</th>
                 </tr>
@@ -45,25 +39,32 @@
                 @* Par *@
                 <tr id="par" class="text-center" style="background-color: black; color: white;">
                     <td class="text-left"><strong>Par</strong></td>
-                    <td><input type="number" min="3" max="99" style="background-color: black;" /></td>
-                    <td><input type="number" min="3" max="99" style="background-color: black;" /></td>
-                    <td><input type="number" min="3" max="99" style="background-color: black;" /></td>
-                    <td><input type="number" min="3" max="99" style="background-color: black;" /></td>
-                    <td><input type="number" min="3" max="99" style="background-color: black;" /></td>
-                    <td><input type="number" min="3" max="99" style="background-color: black;" /></td>
-                    <td><input type="number" min="3" max="99" style="background-color: black;" /></td>
-                    <td><input type="number" min="3" max="99" style="background-color: black;" /></td>
-                    <td><input type="number" min="3" max="99" style="background-color: black;" /></td>
-                    <td class="disabled"></td>
-                    <td><input type="number" min="3" max="99" style="background-color: black;" /></td>
-                    <td><input type="number" min="3" max="99" style="background-color: black;" /></td>
-                    <td><input type="number" min="3" max="99" style="background-color: black;" /></td>
-                    <td><input type="number" min="3" max="99" style="background-color: black;" /></td>
-                    <td><input type="number" min="3" max="99" style="background-color: black;" /></td>
-                    <td><input type="number" min="3" max="99" style="background-color: black;" /></td>
-                    <td><input type="number" min="3" max="99" style="background-color: black;" /></td>
-                    <td><input type="number" min="3" max="99" style="background-color: black;" /></td>
-                    <td><input type="number" min="3" max="99" style="background-color: black;" /></td>
+                    @{
+                        var holeIndex = 0;
+                    }
+                    @for (int i = 0; i < 18; i++)
+                    {
+                        if (i == 9)
+                        {
+                            <td class="disabled"></td>
+                        }
+                        if (holeIndex < Model.Holes.Count)
+                        {
+                            if ((i + 1) == Model.Holes[holeIndex].HoleNumber)
+                            {
+                                <td><input name="scoreCardDto.Holes[@i].Par" type="number" min="3" max="99" style="background-color: black;" value="@Model.Holes[holeIndex].Par" /></td>
+                                holeIndex++;
+                            }
+                            else
+                            {
+                                <td><input name="scoreCardDto.Holes[@i].Par" type="number" min="3" max="99" style="background-color: black;" /></td>
+                            }
+                        }
+                        else
+                        {
+                            <td><input name="scoreCardDto.Holes[@i].Par" type="number" min="3" max="99" style="background-color: black;" /></td>
+                        }
+                    }
                     <td class="disabled"></td>
                     <td id="total" class="disabled"></td>
                 </tr>
@@ -71,25 +72,32 @@
                 @* Strokes *@
                 <tr class="score text-center">
                     <td class="text-left"><strong>Strokes</strong></td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td class="disabled"></td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
+                    @{
+                        holeIndex = 0;
+                    }
+                    @for (int i = 0; i < 18; i++)
+                    {
+                        if (i == 9)
+                        {
+                            <td class="disabled"></td>
+                        }
+                        if (holeIndex < Model.Holes.Count)
+                        {
+                            if ((i + 1) == Model.Holes[holeIndex].HoleNumber)
+                            {
+                                <td><input name="scoreCardDto.Holes[@i].Score" type="number" min="0" max="99" value="@Model.Holes[holeIndex].Score" /> </td>
+                                holeIndex++;
+                            }
+                            else
+                            {
+                                <td><input name="scoreCardDto.Holes[@i].Score" type="number" min="0" max="99" /> </td>
+                            }
+                        }
+                        else
+                        {
+                            <td><input name="scoreCardDto.Holes[@i].Score" type="number" min="0" max="99" /> </td>
+                        }
+                    }
                     <td class="disabled"></td>
                     <td id="total" class="disabled"></td>
                 </tr>
@@ -97,25 +105,32 @@
                 @* Putts *@
                 <tr class="score text-center">
                     <td class="text-left"><strong>Putts</strong></td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td class="disabled"></td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
+                    @{
+                        holeIndex = 0;
+                    }
+                    @for (int i = 0; i < 18; i++)
+                    {
+                        if (i == 9)
+                        {
+                            <td class="disabled"></td>
+                        }
+                        if (holeIndex < Model.Holes.Count)
+                        {
+                            if ((i + 1) == Model.Holes[holeIndex].HoleNumber)
+                            {
+                                <td><input name="scoreCardDto.Holes[@i].Putts" type="number" min="0" max="99" value="@Model.Holes[holeIndex].Putts" /> </td>
+                                holeIndex++;
+                            }
+                            else
+                            {
+                                <td><input name="scoreCardDto.Holes[@i].Putts" type="number" min="0" max="99" /> </td>
+                            }
+                        }
+                        else
+                        {
+                            <td><input name="scoreCardDto.Holes[@i].Putts" type="number" min="0" max="99" /> </td>
+                        }
+                    }
                     <td class="disabled"></td>
                     <td id="total" class="disabled"></td>
                 </tr>
@@ -123,31 +138,38 @@
                 @* Penalties *@
                 <tr class="score text-center">
                     <td class="text-left"><strong>Penalties</strong></td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td class="disabled"></td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
-                    <td><input type="number" min="0" max="99" /> </td>
+                    @{
+                        holeIndex = 0;
+                    }
+                    @for (int i = 0; i < 18; i++)
+                    {
+                        if (i == 9)
+                        {
+                            <td class="disabled"></td>
+                        }
+                        if (holeIndex < Model.Holes.Count)
+                        {
+                            if ((i + 1) == Model.Holes[holeIndex].HoleNumber)
+                            {
+                                <td><input name="scoreCardDto.Holes[@i].Penalties" type="number" min="0" max="99" value="@Model.Holes[holeIndex].Penalties" /> </td>
+                                holeIndex++;
+                            }
+                            else
+                            {
+                                <td><input name="scoreCardDto.Holes[@i].Penalties" type="number" min="0" max="99" /> </td>
+                            }
+                        }
+                        else
+                        {
+                            <td><input name="scoreCardDto.Holes[@i].Penalties" type="number" min="0" max="99" /> </td>
+                        }
+                    }
                     <td class="disabled"></td>
                     <td id="total" class="disabled"></td>
                 </tr>
             </table>
         </div>
-        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+        <button type="submit" class="btn btn-primary mt-3">Save</button>
     </form>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.slim.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

@@ -5,17 +5,7 @@
 
 <div class="text-center">
     <h1 class="display-4">Scorecards</h1>
-@*     @foreach (var scorecard in Model)
-    {
-        <h2>Course: @scorecard.CourseName</h2>
-        <h3>Date: @scorecard.Date </h3>
-        @foreach (var hole in scorecard.Holes)
-        {
-            <p>Hole Number: @hole.HoleNumber | Par: @hole.Par | Score: @hole.Score | Putts: @hole.Putts | Penalties: @hole.Penalties</p>
-        }
-    } *@
 </div>
-
 
 <html>
 <head>
@@ -278,6 +268,12 @@
                     <td id="total">@totalPenalties</td>
                 </tr>
             </table>
+        </div>
+        <div>
+            <a href="/ScoreCard/EditScoreCard?id=@scorecard.ScoreCardId"><button class="btn btn-light btn-sm">Edit</button></a>
+        </div>
+        <div>
+            <a asp-controller="ScoreCard" asp-action=""><button class="btn btn-danger btn-sm">Delete</button></a>
         </div>
     }
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.slim.js"></script>

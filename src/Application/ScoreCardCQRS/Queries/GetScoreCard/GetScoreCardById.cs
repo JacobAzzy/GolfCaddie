@@ -13,25 +13,39 @@ public record GetScoreCardByIdQuery : IRequest<ScoreCardDto>
 public class GetScoreCardByIdQueryHandler : IRequestHandler<GetScoreCardByIdQuery, ScoreCardDto>
 {
     private readonly IApplicationDbContext _context;
-    private readonly IMapper _mapper;
 
-    public GetScoreCardByIdQueryHandler(IApplicationDbContext context, IMapper mapper)
+    public GetScoreCardByIdQueryHandler(IApplicationDbContext context)
     {
         _context = context;
-        _mapper = mapper;
     }
 
     public async Task<ScoreCardDto> Handle(GetScoreCardByIdQuery request, CancellationToken cancellationToken)
     {
         try
         {
-            var scoreCard = await _context.ScoreCards.FindAsync(request.ScoreCardId);
+            var scoreCard = await _context.ScoreCards.Include(scorecard => scorecard.Holes.OrderBy(hole => hole.HoleNumber))
+                .FirstOrDefaultAsync(x => x.Id == request.ScoreCardId);
             if (scoreCard == null)
             {
                 return null;
             }
 
-            var scoreCardDto = _mapper.Map<ScoreCardDto>(scoreCard);
+            var scoreCardDto = new ScoreCardDto()
+            {
+                ScoreCardId = scoreCard.Id,
+                UserId = scoreCard.UserId,
+                CourseName = scoreCard.CourseName,
+                Date = scoreCard.Date,
+                Holes = scoreCard.Holes?.Select(hole => new HoleDto()
+                {
+                    HoleNumber = hole.HoleNumber,
+                    Par = hole.Par,
+                    Score = hole.Score,
+                    Putts = hole.Putts,
+                    Penalties = hole.Penalties
+                }).ToList()
+            };
+
             return scoreCardDto;
         }
 
